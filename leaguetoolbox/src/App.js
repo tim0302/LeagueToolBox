@@ -1,16 +1,21 @@
 import axios from 'axios';
 import { useState, useEffect } from 'react';
-function App() {
-  const [chosenRank, setChosenRank] = useState(null);
-  const [isLoading, setIsLoading] = useState(false);
-  const [championList, setChampionList] = useState(null);
-  const [filteredChampionList, setFilteredChampionList] = useState(null);
-  const [skillLevel, setSkillLevel] = useState(null);
-  const [role, setRole] = useState(null);
 
-  function filterChampionBaseOnSkill() {
-    console.log(championList.name);
-  }
+function App() {
+  //ranking such as iron, bronze, silver
+  const [chosenRank, setChosenRank] = useState(null);
+  //the loading status of the championlist
+  const [isLoading, setIsLoading] = useState(false);
+  //full response from api
+  const [championList, setChampionList] = useState(null);
+  //skill level, low or high
+  const [skillLevel, setSkillLevel] = useState(null);
+  //the role the player is playing
+  const [role, setRole] = useState(null);
+  //random champion from the list
+  const [random, setRandom] = useState(null);
+  //temporary list for a certain row to calculate random
+  var templist = [];
   function getAllChampions() {
     setIsLoading(true);
 
@@ -35,9 +40,12 @@ function App() {
         console.error(error);
       });
   }
-
+  function randomItem(items) {
+    setRandom(items[Math.floor(Math.random() * items.length)]);
+    return items[Math.floor(Math.random() * items.length)];
+  }
   useEffect(() => {
-    if (chosenRank && skillLevel && role) {
+    if (chosenRank) {
       getAllChampions();
     }
     //run when ever this changes
@@ -93,27 +101,53 @@ function App() {
           <option value='SUPPORT'>Support</option>
         </select>
       </div>
-      {/* )} */}
-      {isLoading && <h2>Loading...</h2>}
-      {/* {!championList && <h2>Loading the variable...</h2>} */}
-      {chosenRank && skillLevel && role && (
-        <button onClick={() => filterChampionBaseOnSkill()}>
-          Click to load the champions
-        </button>
-      )}
-      {championList && chosenRank && skillLevel && role && (
+      {isLoading && <h2>Loading Champions...</h2>}
+
+      {<h2>Introducing your champions:</h2>}
+
+      {championList && skillLevel && role && (
         <div className='output'>
-          <h5>Introducing your champions:</h5>
           {championList.map((champion, _championIndex) =>
             champion.tier.includes(skillLevel) && champion.role === role ? (
-              <p>
-                {champion.name} - win rate: {champion.winRate}
-              </p>
+              <div className='selected-champ'>
+                <p>
+                  {champion.name} - win rate: {champion.winRate}
+                </p>
+                <span hidden>{templist.push(champion.name)}</span>
+                <img
+                  id='image'
+                  width='100'
+                  height='100'
+                  src={
+                    //stick the seperated names together
+                    'https://ddragon.leagueoflegends.com/cdn/12.4.1/img/champion/' +
+                    champion.name.replace(/\s/g, '') +
+                    '.png'
+                  }
+                ></img>
+              </div>
             ) : null
           )}
+          <p>
+            The champion system picked for you is: {random}
+            {random && (
+              <img
+                id='image'
+                width='100'
+                height='100'
+                src={
+                  'https://ddragon.leagueoflegends.com/cdn/12.4.1/img/champion/' +
+                  random +
+                  '.png'
+                }
+              ></img>
+            )}
+          </p>
+          <button onClick={() => randomItem(templist)}>
+            Roll For a Champion
+          </button>
         </div>
       )}
-      {/* <button onClick={() => ShowVariable()}>ShowVariable</button> */}
     </div>
   );
 }
