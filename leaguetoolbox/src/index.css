@@ -77,7 +77,6 @@ code {
 }
 .randomizer{
   margin: 5em 5em;
-  border-width: 2em;
   border-color: aliceblue;
   display: flex;
   flex-direction: column;
