@@ -141,7 +141,7 @@ function App() {
                     src={
                       //stick the seperated names together
                       'https://ddragon.leagueoflegends.com/cdn/12.4.1/img/champion/' +
-                      champion.name.replace(/\s/g, '') +
+                      champion.name.replace(/[\s.]/g, '') +
                       '.png'
                     }
                   ></img>
@@ -161,10 +161,12 @@ function App() {
                 height='150'
                 src={
                   'https://ddragon.leagueoflegends.com/cdn/12.4.1/img/champion/' +
-                  random.replace(/\s/g, '') +
+                  random.replace(/[\s.]/g, '') +
                   '.png'
                 }
-              ></img>
+              >
+                {console.log(random.replace(/\s./g, ''))}
+              </img>
             )}
 
             <button class='button' onClick={() => randomItem(templist)}>
