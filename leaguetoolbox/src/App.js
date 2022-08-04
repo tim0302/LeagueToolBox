@@ -161,7 +161,7 @@ function App() {
                 height='150'
                 src={
                   'https://ddragon.leagueoflegends.com/cdn/12.4.1/img/champion/' +
-                  random +
+                  random.replace(/\s/g, '') +
                   '.png'
                 }
               ></img>
