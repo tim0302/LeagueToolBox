@@ -1,5 +1,6 @@
 import axios from 'axios';
 import { useState, useEffect } from 'react';
+import ClipLoader from 'react-spinners/ClipLoader';
 
 function App() {
   //ranking such as iron, bronze, silver
@@ -54,87 +55,110 @@ function App() {
     <div className='App'>
       {/* {!chosenRank && !skillLevel && !role && ( */}
       <div className='Rank-selector'>
-        <h1>League of Legends Champion Picker</h1>
-        <p>Select Your Rank & skill Level to start</p>
-        <select
-          name='ranks'
-          id='ranks'
-          value={chosenRank}
-          onChange={(e) => setChosenRank(e.target.value)}
-        >
-          <option value={null}>Choose your Rank</option>
-          <option value='iron'>Iron</option>
-          <option value='bronze'>Bronze</option>
-          <option value='silver'>Silver</option>
-          <option value='gold'>Gold</option>
-          <option value='platinum'>Platinum</option>
-          <option value='diamond'>Diamond</option>
-          <option value='master'>Master</option>
-          <option value='grandmaster'>Grandmaster</option>
-          <option value='challenger'>Challenger</option>
-        </select>
+        <h1 id='title'>League of Legends Champion Picker</h1>
+        <p>
+          This is a champion picker tool developed by Tim, which helps you to
+          decide which champions to play based on current meta (if you are
+          wondering). You can choose your preferences of your play style, then
+          let the system decide which champion you should play.
+        </p>
+        <h4>Select your preferences to start:</h4>
 
-        <select
-          name='skill'
-          id='skill'
-          value={skillLevel}
-          onChange={(e) => setSkillLevel(e.target.value)}
-        >
-          <option value={null}>Choose your skill level</option>
+        <div className='selections'>
+          <select
+            className='select'
+            name='ranks'
+            id='ranks'
+            value={chosenRank}
+            onChange={(e) => setChosenRank(e.target.value)}
+          >
+            <option value={null}>Choose your Rank</option>
+            <option value='iron'>Iron</option>
+            <option value='bronze'>Bronze</option>
+            <option value='silver'>Silver</option>
+            <option value='gold'>Gold</option>
+            <option value='platinum'>Platinum</option>
+            <option value='diamond'>Diamond</option>
+            <option value='master'>Master</option>
+            <option value='grandmaster'>Grandmaster</option>
+            <option value='challenger'>Challenger</option>
+          </select>
 
-          <option value='D'>No one can beat me in this game.</option>
-          <option value='S'>I'm new!</option>
-        </select>
+          <select
+            className='select'
+            name='skill'
+            id='skill'
+            value={skillLevel}
+            onChange={(e) => setSkillLevel(e.target.value)}
+          >
+            <option value={null}>Choose your skill level</option>
 
-        <select
-          name='role'
-          id='role'
-          value={role}
-          onChange={(e) => setRole(e.target.value)}
-        >
-          <option value={null}>Choose your prefered role</option>
+            <option value='D'>[Hell] Bring me some real challenge</option>
+            <option value='C'>[Hard] I can beat most of the players</option>
+            <option value='B'>
+              [Intermediate] I'm okay with some challenge
+            </option>
+            <option value='A'>[Easy] I'm getting better</option>
+            <option value='S'>[Very Easy] I'm new to this game!</option>
+          </select>
 
-          <option value='TOP'>Top</option>
-          <option value='MID'>Mid</option>
-          <option value='JUNGLE'>Jungle</option>
-          <option value='ADC'>ADC</option>
-          <option value='SUPPORT'>Support</option>
-        </select>
+          <select
+            className='select'
+            name='role'
+            id='role'
+            value={role}
+            onChange={(e) => setRole(e.target.value)}
+          >
+            <option value={null}>Choose your prefered role</option>
+
+            <option value='TOP'>Top</option>
+            <option value='MID'>Mid</option>
+            <option value='JUNGLE'>Jungle</option>
+            <option value='ADC'>Bottom</option>
+            <option value='SUPPORT'>Support</option>
+          </select>
+        </div>
       </div>
-      {isLoading && <h2>Loading Champions...</h2>}
+      <div className='loading'>
+        {isLoading && <h3>Loading Champions...</h3>}
+        <ClipLoader color={'FF0000'} loading={isLoading} size={150} />
+      </div>
+      {!isLoading && championList && skillLevel && role && (
+        <h3>Introducing your champions:</h3>
+      )}
 
-      {<h2>Introducing your champions:</h2>}
-
-      {championList && skillLevel && role && (
+      {!isLoading && championList && skillLevel && role && (
         <div className='output'>
-          {championList.map((champion, _championIndex) =>
-            champion.tier.includes(skillLevel) && champion.role === role ? (
-              <div className='selected-champ'>
-                <p>
-                  {champion.name} - win rate: {champion.winRate}
-                </p>
-                <span hidden>{templist.push(champion.name)}</span>
-                <img
-                  id='image'
-                  width='100'
-                  height='100'
-                  src={
-                    //stick the seperated names together
-                    'https://ddragon.leagueoflegends.com/cdn/12.4.1/img/champion/' +
-                    champion.name.replace(/\s/g, '') +
-                    '.png'
-                  }
-                ></img>
-              </div>
-            ) : null
-          )}
-          <p>
-            The champion system picked for you is: {random}
+          <div className='outputChampList'>
+            {championList.map((champion, _championIndex) =>
+              champion.tier.includes(skillLevel) && champion.role === role ? (
+                <div className='selected-champ'>
+                  <span hidden>{templist.push(champion.name)}</span>
+                  <img
+                    id='image'
+                    width='100'
+                    height='100'
+                    src={
+                      //stick the seperated names together
+                      'https://ddragon.leagueoflegends.com/cdn/12.4.1/img/champion/' +
+                      champion.name.replace(/\s/g, '') +
+                      '.png'
+                    }
+                  ></img>
+                  <p>{champion.name}</p>
+
+                  <p>Win rate: {champion.winRate}</p>
+                </div>
+              ) : null
+            )}
+          </div>
+          <div className='randomizer'>
+            <h4>The champion system picked for you is: {random}</h4>
             {random && (
               <img
                 id='image'
-                width='100'
-                height='100'
+                width='150'
+                height='150'
                 src={
                   'https://ddragon.leagueoflegends.com/cdn/12.4.1/img/champion/' +
                   random +
@@ -142,10 +166,11 @@ function App() {
                 }
               ></img>
             )}
-          </p>
-          <button onClick={() => randomItem(templist)}>
-            Roll For a Champion
-          </button>
+
+            <button class='button' onClick={() => randomItem(templist)}>
+              Roll For a Champion
+            </button>
+          </div>
         </div>
       )}
     </div>
