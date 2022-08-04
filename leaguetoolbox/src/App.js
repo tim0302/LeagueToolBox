@@ -43,7 +43,7 @@ function App() {
   }
   function randomItem(items) {
     setRandom(items[Math.floor(Math.random() * items.length)]);
-    return items[Math.floor(Math.random() * items.length)];
+    // return items[Math.floor(Math.random() * items.length)];
   }
   useEffect(() => {
     if (chosenRank) {
@@ -51,6 +51,12 @@ function App() {
     }
     //run when ever this changes
   }, [chosenRank]);
+
+  useEffect(() => {
+    templist = [];
+    setRandom(null);
+    //run when ever this changes
+  }, [chosenRank, skillLevel, role]);
   return (
     <div className='App'>
       {/* {!chosenRank && !skillLevel && !role && ( */}
@@ -139,7 +145,7 @@ function App() {
                     width='100'
                     height='100'
                     src={
-                      //stick the seperated names together
+                      //remove space and dot in champ names
                       'https://ddragon.leagueoflegends.com/cdn/12.4.1/img/champion/' +
                       champion.name.replace(/[\s.]/g, '') +
                       '.png'
@@ -164,9 +170,7 @@ function App() {
                   random.replace(/[\s.]/g, '') +
                   '.png'
                 }
-              >
-                {console.log(random.replace(/\s./g, ''))}
-              </img>
+              ></img>
             )}
 
             <button class='button' onClick={() => randomItem(templist)}>
