@@ -159,18 +159,20 @@ function App() {
             )}
           </div>
           <div className='randomizer'>
-            <h4>The champion system picked for you is: {random}</h4>
             {random && (
-              <img
-                id='image'
-                width='150'
-                height='150'
-                src={
-                  'https://ddragon.leagueoflegends.com/cdn/12.4.1/img/champion/' +
-                  random.replace(/[\s.]/g, '') +
-                  '.png'
-                }
-              ></img>
+              <div className='pick-icon'>
+                <h4>The champion system picked for you is: {random}</h4>
+                <img
+                  id='image'
+                  width='150'
+                  height='150'
+                  src={
+                    'https://ddragon.leagueoflegends.com/cdn/12.4.1/img/champion/' +
+                    random.replace(/[\s.]/g, '') +
+                    '.png'
+                  }
+                ></img>
+              </div>
             )}
 
             <button class='button' onClick={() => randomItem(templist)}>

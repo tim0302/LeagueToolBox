@@ -76,13 +76,16 @@ code {
   transform: translateY(1px);
 }
 .randomizer{
-  margin: 5em 5em;
-  border-color: aliceblue;
+  margin: 3em 3em;
   display: flex;
   flex-direction: column;
   align-items: center;
 }
-
+.pick-icon{
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
 .loading{
   margin-top: 3em;
   display: flex;
