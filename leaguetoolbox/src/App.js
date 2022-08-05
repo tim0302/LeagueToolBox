@@ -30,7 +30,6 @@ function App() {
         'X-RapidAPI-Host': 'league-of-legends-champion-meta.p.rapidapi.com',
       },
     };
-    console.log(options.url);
     axios
       .request(options)
       .then(function (response) {
@@ -43,7 +42,6 @@ function App() {
   }
   function randomItem(items) {
     setRandom(items[Math.floor(Math.random() * items.length)]);
-    // return items[Math.floor(Math.random() * items.length)];
   }
   useEffect(() => {
     if (chosenRank) {
@@ -158,7 +156,7 @@ function App() {
               ) : null
             )}
           </div>
-          <div className='randomizer'>
+          <div id='randomizer' className='randomizer'>
             {random && (
               <div className='pick-icon'>
                 <h4>The champion system picked for you is: {random}</h4>
@@ -172,10 +170,15 @@ function App() {
                     '.png'
                   }
                 ></img>
+                {window.scroll({
+                  top: document.body.offsetHeight,
+                  left: 0,
+                  behavior: 'smooth',
+                })}
               </div>
             )}
 
-            <button class='button' onClick={() => randomItem(templist)}>
+            <button className='button' onClick={() => randomItem(templist)}>
               Roll For a Champion
             </button>
           </div>
