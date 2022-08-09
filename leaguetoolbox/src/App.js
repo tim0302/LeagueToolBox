@@ -26,7 +26,7 @@ function App() {
       headers: {
         rankname:
           'placements,iron,bronze,silver,gold,platinum,diamond,master,grandmaster,challenger',
-        'X-RapidAPI-Key': 'e66b56b8d1msh02904278e3e2013p12d713jsnf39e91383aea',
+        'X-RapidAPI-Key': process.env.REACT_APP_RAPIDAPI_KEY_CHAMPION,
         'X-RapidAPI-Host': 'league-of-legends-champion-meta.p.rapidapi.com',
       },
     };
